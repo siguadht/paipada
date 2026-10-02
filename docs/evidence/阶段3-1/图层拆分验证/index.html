@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>拍拍搭 · 整件沙发弹起技术验证</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, "PingFang SC", sans-serif; color: #292722; background: #fbfaf8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    header { max-width: 1300px; margin: auto; padding: 28px 30px 22px; border-bottom: 1px solid #e8e4df; display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+    .brand { font-weight: 800; font-size: 25px; letter-spacing: -.07em; }
+    .brand span { color: #a34d36; }
+    header small { color: #9b9289; }
+    main { max-width: 1300px; margin: auto; padding: 32px 30px 70px; }
+    h1 { font-size: clamp(27px, 3vw, 39px); letter-spacing: -.05em; margin: 0 0 10px; }
+    .lead { margin: 0 0 24px; color: #746d66; line-height: 1.7; font-size: 14px; }
+    .demo-layout { display: grid; grid-template-columns: minmax(0, 1fr) 275px; gap: 28px; align-items: start; }
+    .scene { position: relative; width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 9px; background: #e8e4de; cursor: crosshair; touch-action: manipulation; }
+    .scene>img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; }
+    .layer { position: absolute; left: 15.5%; top: 52.9%; width: 76.9%; height: 32.9%; pointer-events: none; transform-origin: center 75%; filter: drop-shadow(0 0 0 transparent); }
+    .layer img { width: 100%; height: 100%; display: block; }
+    .layer.pop { animation: bounce .58s cubic-bezier(.2, 1.25, .42, 1) both; }
+    @keyframes bounce { 0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 0 transparent); } 42% { transform: translateY(-10px) scale(1.045); filter: drop-shadow(0 14px 12px #0005); } 72% { transform: translateY(2px) scale(.992); } 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 0 transparent); } }
+    .hint { position: absolute; left: 15px; bottom: 15px; background: #fffffff0; padding: 10px 13px; border-radius: 5px; font-size: 12px; pointer-events: none; box-shadow: 0 6px 20px #0002; }
+    aside { background: #fff; border: 1px solid #e9e4de; border-radius: 9px; padding: 22px; }
+    aside strong { font-size: 16px; }
+    aside p { color: #777069; font-size: 12px; line-height: 1.7; }
+    .switch { display: flex; gap: 7px; margin: 18px 0; }
+    button { cursor: pointer; border: 1px solid #ded8d1; border-radius: 5px; background: #fff; padding: 9px 11px; font-size: 12px; color: #514c46; }
+    button.active { background: #292722; color: #fff; border-color: #292722; }
+    .detail { border-top: 1px solid #eee9e3; padding-top: 14px; }
+    .detail b { display: block; font-size: 12px; margin: 12px 0 4px; }
+    .detail span { display: block; font-size: 12px; color: #837b73; line-height: 1.6; }
+    @media(max-width: 760px) { header { padding: 19px 17px; } main { padding: 25px 17px 55px; } .demo-layout { display: block; } aside { margin-top: 17px; } .hint { font-size: 10px; } }
+    @media(prefers-reduced-motion: reduce) { .layer.pop { animation-duration: .01ms; } }
+  </style>
+</head>
+<body>
+  <header><div class="brand">拍拍搭<span>.</span></div><small>技术验证 · 未接入正式方案</small></header>
+  <main>
+    <h1>点一下沙发，看看整件弹起。</h1>
+    <p class="lead">使用一次真实图层拆分结果制作。这里展示的是轮廓选中手感；用户方案中的自动拆层、缓存和水印处理仍未实现。</p>
+    <div class="demo-layout">
+      <div class="scene" id="scene" role="button" tabindex="0" aria-label="点选图片中的沙发，查看整件家具弹起">
+        <img id="background" src="底图.png" alt="已补全沙发位置的房间底图" />
+        <div class="layer" id="layer"><img src="沙发图层.png" alt="" /></div>
+        <div class="hint" id="hint">点选沙发，体验整件物品的 Q 弹反馈</div>
+      </div>
+      <aside>
+        <strong>一张图，拆出两层。</strong>
+        <p>模型返回补好背景的底图和独立透明沙发图层。点击时只让沙发轻轻弹起，房间保持不动。</p>
+        <div class="switch"><button type="button" class="active" id="assembled">合成预览</button><button type="button" id="original">原始图片</button></div>
+        <div class="detail"><b>测试结果</b><span>1 次真实调用 · 底图 1 张 + 沙发图层 1 张 · 1.5K 档约 ¥0.30</span><b>已发现的瑕疵</b><span>原图带“AI生成”水印，模型把部分水印也提入了图层；正式体验前需处理。</span></div>
+      </aside>
+    </div>
+  </main>
+  <script>
+    const scene = document.getElementById('scene');
+    const layer = document.getElementById('layer');
+    const background = document.getElementById('background');
+    const hint = document.getElementById('hint');
+    const assembled = document.getElementById('assembled');
+    const original = document.getElementById('original');
+    const mask = new Image();
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    mask.onload = () => { canvas.width = mask.naturalWidth; canvas.height = mask.naturalHeight; context.drawImage(mask, 0, 0); };
+    mask.src = '沙发图层.png';
+    scene.addEventListener('click', (event) => {
+      if (background.getAttribute('src') !== '底图.png' || !canvas.width) return;
+      const rect = scene.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width;
+      const y = (event.clientY - rect.top) / rect.height;
+      const lx = Math.floor((x - .155) / .769 * canvas.width);
+      const ly = Math.floor((y - .529) / .329 * canvas.height);
+      if (lx < 0 || ly < 0 || lx >= canvas.width || ly >= canvas.height || context.getImageData(lx, ly, 1, 1).data[3] < 50) return;
+      layer.classList.remove('pop');
+      void layer.offsetWidth;
+      layer.classList.add('pop');
+      hint.textContent = '已选中整件沙发';
+    });
+    scene.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      layer.classList.remove('pop');
+      void layer.offsetWidth;
+      layer.classList.add('pop');
+      hint.textContent = '已选中整件沙发';
+    });
+    assembled.onclick = () => { background.src = '底图.png'; layer.hidden = false; assembled.classList.add('active'); original.classList.remove('active'); hint.hidden = false; };
+    original.onclick = () => { background.src = '原图.jpg'; layer.hidden = true; original.classList.add('active'); assembled.classList.remove('active'); hint.hidden = true; };
+  </script>
+</body>
+</html>

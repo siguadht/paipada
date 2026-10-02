@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>拍拍搭 · 软装局部编辑二图对照</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f5f5f4; color: #171717; font: 16px/1.55 -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    main { max-width: 1320px; margin: auto; padding: 32px 20px 80px; }
+    h1 { margin: 0; font-size: clamp(27px, 4vw, 40px); }
+    h2 { margin: 0 0 6px; font-size: 24px; }
+    p { margin: 6px 0 0; color: #626262; }
+    section { margin-top: 30px; padding: 24px; border: 1px solid #ddd; border-radius: 18px; background: white; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 20px; }
+    figure { margin: 0; }
+    figcaption { margin-bottom: 8px; font-weight: 650; }
+    img { display: block; width: 100%; height: auto; border-radius: 9px; background: #eee; }
+    .product { max-width: 280px; margin-top: 20px; }
+    .note { margin-top: 16px; padding-top: 14px; border-top: 1px solid #e8e8e8; font-size: 14px; }
+    a { color: inherit; }
+    @media (max-width: 700px) { main { padding: 20px 12px 56px; } section { padding: 14px; } .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>软装局部编辑 · 两次真实对照</h1>
+    <p>都从已验收图片复制到隔离方案操作；原方案未覆盖。点击图片可放大。</p>
+    <section>
+      <h2>01 窗帘改色</h2>
+      <p>要求左右两幅深棕遮光窗帘改为明显的浅米白色，白纱、窗框和家具保持。</p>
+      <div class="grid">
+        <figure><figcaption>修改前</figcaption><a href="../../../data/qa-soft-v2-20261001/generated/curtain-base.jpg" target="_blank"><img src="../../../data/qa-soft-v2-20261001/generated/curtain-base.jpg" alt="深棕色窗帘原图"></a></figure>
+        <figure><figcaption>本次修改后</figcaption><a href="../../../data/qa-soft-v2-20261001/generated/9052a4fa-beaf-47d2-a244-01bbbf70b958_edit_79230f40.jpg" target="_blank"><img src="../../../data/qa-soft-v2-20261001/generated/9052a4fa-beaf-47d2-a244-01bbbf70b958_edit_79230f40.jpg" alt="浅米白色窗帘结果"></a></figure>
+      </div>
+      <p class="note">人工初审：两侧改色明显，中间白纱与主要家具大体保留。请确认是否满意。</p>
+    </section>
+    <section>
+      <h2>02 指定商品替换边柜 · 两次尝试</h2>
+      <p>将右墙浅木低柜换成所选 Unda 深色落地边柜，其他陈设保持。第一次主要变色，第二次进一步更换柜门结构。</p>
+      <div class="grid">
+        <figure><figcaption>修改前</figcaption><a href="../../../data/qa-soft-v2-20261001/generated/cabinet-base.jpg" target="_blank"><img src="../../../data/qa-soft-v2-20261001/generated/cabinet-base.jpg" alt="浅木边柜原图"></a></figure>
+        <figure><figcaption>第一次：变深色，但仍有旧柜开放格</figcaption><a href="../../../data/qa-soft-v2-20261001/generated/2a142b9c-1ea8-4d29-8ab7-25afa29ba05f_edit_d58220c5.jpg" target="_blank"><img src="../../../data/qa-soft-v2-20261001/generated/2a142b9c-1ea8-4d29-8ab7-25afa29ba05f_edit_d58220c5.jpg" alt="第一次深色边柜结果"></a></figure>
+        <figure><figcaption>第二次：深色柜门更完整</figcaption><a href="../../../data/qa-soft-v2-20261001/generated/80856fae-7d2a-4cc2-ac67-faf2bda38a90_edit_03b3c10c.jpg" target="_blank"><img src="../../../data/qa-soft-v2-20261001/generated/80856fae-7d2a-4cc2-ac67-faf2bda38a90_edit_03b3c10c.jpg" alt="第二次深色边柜结果"></a></figure>
+        <figure><figcaption>发送给模型的商品主图</figcaption><a href="../../../frontend/public/demo-products/cabinet.png" target="_blank"><img src="../../../frontend/public/demo-products/cabinet.png" alt="Unda 边柜商品主图"></a></figure>
+      </div>
+      <p class="note">人工初审：第二次不再保留明显的旧柜开放格，更像商品的深色封闭柜；宽度、柜门和把手细节仍不完全相同。请判断是否达到演示所需的“看出换了一件柜子”。</p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>卧室门窗保护遮罩 · 离线原型</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #f5f5f5; color: #181818; font: 15px/1.6 system-ui, -apple-system, sans-serif; }
+  main { max-width: 1480px; margin: auto; padding: 32px 20px 56px; }
+  h1 { margin: 0 0 6px; font-size: clamp(24px, 3vw, 34px); }
+  p { max-width: 900px; margin: 0 0 16px; color: #555; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 22px 0 18px; }
+  button { padding: 10px 16px; border: 1px solid #222; border-radius: 9px; background: #fff; color: #111; font: inherit; cursor: pointer; }
+  button.primary { background: #181818; color: #fff; }
+  .photo { position: relative; width: 100%; margin: 0; border: 1px solid #ddd; border-radius: 12px; overflow: hidden; background: #ddd; }
+  .photo img { display: block; width: 100%; height: auto; }
+  .photo svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  polygon { fill: #ffffff22; stroke: #f54747; stroke-width: 5; vector-effect: non-scaling-stroke; }
+  .photo.hide polygon { display: none; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+  .legend span { padding: 3px 9px; border: 1px solid #ddd; border-radius: 6px; background: #fff; }
+  .note { max-width: 1000px; margin-top: 20px; padding: 16px 18px; border: 1px solid #ddd; border-radius: 10px; background: #fff; }
+  .note p { margin: 0; }
+</style>
+<main>
+  <h1>卧室门窗保护遮罩 · 离线原型</h1>
+  <p>红线标出原照片中必须保留的左侧门、远墙窗和右墙三扇窗。输出遮罩按原图 5472 × 3648 像素生成：黑色区域保留原照片，白色区域允许修改。</p>
+  <div class="toolbar">
+    <button id="toggle" type="button">隐藏轮廓</button>
+    <button id="download" class="primary" type="button">下载黑白遮罩 PNG</button>
+  </div>
+  <figure class="photo" id="photo">
+    <img id="source" src="../阶段3-2/真实双空间/卧室-原图.jpg" alt="原卧室照片，右墙有三扇窗">
+    <svg viewBox="0 0 1920 1280" preserveAspectRatio="none" aria-label="手工标注的门窗保护区域">
+      <polygon data-name="左侧房门" points="0,0 185,0 183,850 270,1025 260,1280 0,1280" />
+      <polygon data-name="远墙窗" points="560,372 915,375 910,700 565,700" />
+      <polygon data-name="右墙窗一" points="1105,362 1260,330 1262,727 1110,720" />
+      <polygon data-name="右墙窗二" points="1250,326 1452,280 1452,739 1255,728" />
+      <polygon data-name="右墙窗三" points="1438,280 1768,175 1760,813 1444,741" />
+    </svg>
+  </figure>
+  <div class="legend"><span>左侧房门</span><span>远墙窗</span><span>右墙窗 × 3</span></div>
+  <div class="note"><p><strong>验证边界：</strong>这是依据原照片手工画出的第一版区域，不是自动识别结果，也没有经过模型生图验证。窗框、窗帘和墙面接缝需在真实局部生成中检查；现有失败图与原图画幅不同，不能直接把原窗裁下来贴上去当成修复。</p></div>
+</main>
+<script>
+  const photo = document.getElementById('photo');
+  const source = document.getElementById('source');
+  document.getElementById('toggle').addEventListener('click', (event) => {
+    const hidden = photo.classList.toggle('hide');
+    event.currentTarget.textContent = hidden ? '显示轮廓' : '隐藏轮廓';
+  });
+  document.getElementById('download').addEventListener('click', () => {
+    if (!source.complete || !source.naturalWidth) {
+      alert('原图尚未加载，请稍后再试');
+      return;
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = source.naturalWidth;
+    canvas.height = source.naturalHeight;
+    const context = canvas.getContext('2d');
+    context.fillStyle = '#fff';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = '#000';
+    for (const shape of document.querySelectorAll('polygon')) {
+      const points = shape.points;
+      context.beginPath();
+      for (let i = 0; i < points.length; i++) {
+        const x = points[i].x * canvas.width / 1920;
+        const y = points[i].y * canvas.height / 1280;
+        if (i === 0) context.moveTo(x, y);
+        else context.lineTo(x, y);
+      }
+      context.closePath();
+      context.fill();
+    }
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = '卧室门窗保护遮罩-原图尺寸.png';
+    link.click();
+  });
+</script>

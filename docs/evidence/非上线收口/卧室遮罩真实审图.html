@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>卧室遮罩局部重绘 · 单次真实审图</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#f6f6f6;color:#171717;font:16px/1.6 system-ui,-apple-system,sans-serif}
+  main{max-width:1700px;margin:auto;padding:32px 20px 64px}h1{font-size:clamp(26px,3vw,38px);margin:0 0 8px}
+  p{margin:0 0 16px;color:#555;max-width:1100px}.notice{background:#fff;border:1px solid #ddd;border-radius:12px;padding:16px 20px;margin:20px 0 28px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{margin:0;background:#fff;border:1px solid #dedede;border-radius:14px;overflow:hidden}
+  .card img{display:block;width:100%;height:auto}.card figcaption{padding:14px 18px;border-top:1px solid #eee}.card strong{display:block}
+  .mask{max-width:800px;margin:24px 0 0}.mask img{background:#fff}
+  @media(max-width:850px){.grid{grid-template-columns:1fr}main{padding:20px 12px 40px}}
+</style>
+<main>
+  <h1>卧室：遮罩局部重绘真实验收</h1>
+  <p>同一张卧室原图。此次只向即梦交互编辑提交一次，右墙窗户区域与吊顶均标为保留，左墙下半部及地面允许生成软装。</p>
+  <div class="notice"><strong>待产品经理审图：</strong>右墙三扇窗是否保持、床与远墙窗是否协调、床头/墙面及地毯边界是否自然。模型原始结果保留三窗；这仍是一张隔离测试图，尚未进入正式方案。黑色遮罩区不等于输出逐像素完全相同。</div>
+  <section class="grid">
+    <figure class="card"><img src="../阶段3-2/真实双空间/卧室-原图.jpg" alt="原卧室照片，右墙三扇窗"><figcaption><strong>01 原照片</strong>右墙有三扇并列窗，左侧房门、远墙窗与原木地板可对照。</figcaption></figure>
+    <figure class="card"><img src="卧室-即梦遮罩单次结果.jpg" alt="即梦局部重绘单次真实结果"><figcaption><strong>02 单次真实结果</strong>右墙三扇窗仍在；床、床头柜、灯和地毯已生成。请重点看床头与远墙窗、软装接缝。</figcaption></figure>
+  </section>
+  <figure class="card mask"><img src="卧室-严格结构遮罩.png" alt="黑色保护原图，白色允许重绘"><figcaption><strong>本次提交的严格结构遮罩</strong>黑色保护，白色允许模型生成。这是提交输入，不能单独证明输出结构准确。</figcaption></figure>
+</main>

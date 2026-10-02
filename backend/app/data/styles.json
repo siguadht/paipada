@@ -1,0 +1,10 @@
+{
+  "cream": {"name": "奶油风", "colors": ["暖白", "燕麦米", "原木"], "materials": ["布艺", "藤编", "羊毛"], "keywords": ["软沙发", "暖光", "圆润线条", "低饱和"]},
+  "japandi": {"name": "原木日式", "colors": ["原木", "米白", "灰"], "materials": ["实木", "棉麻", "纸"], "keywords": ["极简", "自然", "收纳", "留白"]},
+  "modern_minimal": {"name": "现代极简", "colors": ["黑白", "灰", "不锈钢"], "materials": ["金属", "玻璃", "皮革"], "keywords": ["线条", "无把手", "隐藏收纳"]},
+  "french": {"name": "法式", "colors": ["奶白", "金", "灰蓝"], "materials": ["石膏线", "丝绒", "黄铜"], "keywords": ["拱形", "线条", "优雅"]},
+  "wabi_sabi": {"name": "侘寂", "colors": ["大地色", "陶土", "亚麻"], "materials": ["微水泥", "陶土", "棉麻"], "keywords": ["粗糙质感", "自然", "留白"]},
+  "nordic": {"name": "北欧", "colors": ["白", "浅木", "浅灰蓝"], "materials": ["浅木", "布艺", "绿植"], "keywords": ["明亮", "实用", "绿植"]},
+  "vintage": {"name": "复古", "colors": ["墨绿", "棕", "黄铜"], "materials": ["丝绒", "黄铜", "深木"], "keywords": ["怀旧", "质感", "深色"]},
+  "italian": {"name": "意式轻奢", "colors": ["米白", "金", "大理石"], "materials": ["大理石", "黄铜", "皮革"], "keywords": ["轻奢", "大理石", "金属线条"]}
+}

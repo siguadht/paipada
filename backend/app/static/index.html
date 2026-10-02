@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>拍拍搭 · 后端验收界面（临时）</title>
+<style>
+  :root { --bg:#f7f4ef; --card:#fff; --ink:#2b2620; --muted:#8a8175; --accent:#c98a4b; --ok:#4f8a5b; --bad:#b0524a; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,"PingFang SC",sans-serif; background:var(--bg); color:var(--ink); }
+  .wrap { max-width:760px; margin:0 auto; padding:24px 16px 64px; }
+  .card { background:var(--card); border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,.06); }
+  h1 { font-size:22px; margin:0 0 4px; } h2 { font-size:16px; margin:0 0 12px; }
+  .muted { color:var(--muted); font-size:13px; }
+  input[type=text], input[type=password], textarea { width:100%; padding:10px 12px; border:1px solid #ddd6cb; border-radius:8px; font-size:15px; }
+  button { padding:10px 18px; border:0; border-radius:8px; background:var(--accent); color:#fff; font-size:15px; cursor:pointer; }
+  button:disabled { opacity:.5; cursor:not-allowed; }
+  button.secondary { background:#e7ded2; color:var(--ink); }
+  button.ok { background:var(--ok); } button.bad { background:var(--bad); }
+  img { max-width:100%; border-radius:8px; display:block; margin:8px 0; }
+  .row { display:flex; gap:12px; } .row > * { flex:1; }
+  .status { padding:8px 12px; border-radius:8px; font-size:14px; }
+  .status.pending,.status.understanding,.status.rendering { background:#f2e8d5; }
+  .status.review { background:#e8f0e9; } .status.completed { background:#e2f0e4; } .status.failed { background:#f6e2df; }
+  pre { background:#f4f0ea; border-radius:8px; padding:12px; overflow:auto; font-size:12px; }
+  .hidden { display:none; }
+  label { font-size:14px; color:var(--muted); display:block; margin:12px 0 4px; }
+  .hist-item { border:1px solid #eee7dc; border-radius:8px; padding:10px; margin-bottom:8px; cursor:pointer; font-size:14px; }
+  .note { background:#fbf3e6; border-left:4px solid var(--accent); padding:10px 12px; border-radius:6px; font-size:13px; margin-bottom:12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>拍拍搭 · 后端验收界面</h1>
+  <p class="muted">临时验收工具（非正式前端）。验证：邀请码登录 → 上传 → 生成 → 审图 → 历史。</p>
+
+  <div id="loginCard" class="card">
+    <h2>邀请码登录</h2>
+    <input type="text" id="inviteCode" placeholder="输入邀请码" />
+    <div style="margin-top:12px"><button id="loginBtn">登录</button></div>
+    <p id="loginErr" class="muted" style="color:var(--bad)"></p>
+  </div>
+
+  <div id="mainArea" class="hidden">
+    <div class="card">
+      <h2>上传房间照片 + 描述风格</h2>
+      <div class="note">示例描述：奶油风，有猫，3 万预算，要温馨</div>
+      <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" />
+      <img id="photoPreview" class="hidden" alt="预览" />
+      <label for="userInput">风格描述（200 字内）</label>
+      <textarea id="userInput" rows="2" maxlength="200"></textarea>
+      <div style="margin-top:12px"><button id="genBtn">生成</button> <span id="genHint" class="muted"></span></div>
+    </div>
+
+    <div id="taskCard" class="card hidden">
+      <h2>任务进度</h2>
+      <div id="taskStatus" class="status">-</div>
+      <div id="taskProgress" class="muted"></div>
+      <div id="llmJson"></div>
+      <div id="images"></div>
+      <div id="reviewBox" class="hidden">
+        <h2>审图</h2>
+        <div class="row">
+          <button class="ok" id="approveBtn">通过（评分）</button>
+          <button class="bad" id="rejectBtn">驳回换风格</button>
+        </div>
+        <label for="scoreInput">评分 1-5（可选）</label>
+        <input type="text" id="scoreInput" placeholder="例如 4" style="max-width:120px" />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>历史记录</h2>
+      <button class="secondary" id="refreshHistBtn">刷新</button>
+      <div id="historyList" style="margin-top:12px"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let token = localStorage.getItem('ppd_token') || '';
+let currentTaskId = null;
+let pollTimer = null;
+let renderedImagesKey = null;
+let protectedObjectUrls = [];
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
+}
+
+async function authenticatedFetch(url, opts = {}) {
+  const headers = { ...(opts.headers || {}) };
+  if (opts.body && !(opts.body instanceof FormData)) headers['Content-Type'] = 'application/json';
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  const resp = await fetch(url, { ...opts, headers });
+  if (resp.status === 401 && url !== '/api/v1/auth/login') {
+    token = '';
+    localStorage.removeItem('ppd_token');
+    showLogin();
+    $('loginErr').textContent = '登录已过期，请重新输入邀请码';
+  }
+  return resp;
+}
+
+async function api(path, opts = {}) {
+  return authenticatedFetch('/api/v1' + path, opts);
+}
+
+function resetRenderedImages() {
+  for (const url of protectedObjectUrls) URL.revokeObjectURL(url);
+  protectedObjectUrls = [];
+  renderedImagesKey = null;
+  $('images').innerHTML = '';
+}
+
+async function loadProtectedImages() {
+  for (const img of $('images').querySelectorAll('img[data-protected-src]')) {
+    const resp = await authenticatedFetch(img.dataset.protectedSrc);
+    if (!resp.ok) continue;
+    const objectUrl = URL.createObjectURL(await resp.blob());
+    if (img.isConnected) {
+      protectedObjectUrls.push(objectUrl);
+      img.src = objectUrl;
+    } else {
+      URL.revokeObjectURL(objectUrl);
+    }
+  }
+}
+
+function showMain() { $('loginCard').classList.add('hidden'); $('mainArea').classList.remove('hidden'); refreshHistory(); }
+function showLogin() { $('loginCard').classList.remove('hidden'); $('mainArea').classList.add('hidden'); }
+
+async function login() {
+  const code = $('inviteCode').value.trim();
+  $('loginErr').textContent = '';
+  const resp = await api('/auth/login', { method:'POST', body: JSON.stringify({ invite_code: code }) });
+  const data = await resp.json();
+  if (resp.ok) {
+    token = data.token; localStorage.setItem('ppd_token', token); showMain();
+  } else {
+    $('loginErr').textContent = (data.error && data.error.message) || '登录失败';
+  }
+}
+$('loginBtn').addEventListener('click', login);
+
+$('photoInput').addEventListener('change', (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => { $('photoPreview').src = r.result; $('photoPreview').classList.remove('hidden'); };
+  r.readAsDataURL(f);
+});
+
+async function generate() {
+  const file = $('photoInput').files[0];
+  const text = $('userInput').value.trim();
+  if (!file) { alert('请先选择照片'); return; }
+  if (!text) { alert('请填写风格描述'); return; }
+  $('genBtn').disabled = true; $('genHint').textContent = '上传中…';
+
+  try {
+    const fd = new FormData(); fd.append('file', file);
+    const up = await api('/uploads', { method:'POST', body: fd });
+    const upData = await up.json();
+    if (!up.ok) { alert((upData.error && upData.error.message) || '上传失败'); return; }
+
+    $('genHint').textContent = '创建任务中…';
+    const cr = await api('/tasks', { method:'POST', body: JSON.stringify({ photo_id: upData.photo_id, user_input: text }) });
+    const crData = await cr.json();
+    if (!cr.ok) { alert((crData.error && crData.error.message) || '创建任务失败'); return; }
+
+    currentTaskId = crData.task_id;
+    $('taskCard').classList.remove('hidden');
+    $('reviewBox').classList.add('hidden');
+    $('llmJson').innerHTML = '';
+    resetRenderedImages();
+    poll();
+  } catch (error) {
+    alert('网络或服务异常，请稍后重试');
+  } finally {
+    $('genBtn').disabled = false;
+    $('genHint').textContent = '';
+  }
+}
+$('genBtn').addEventListener('click', generate);
+
+function poll() {
+  clearInterval(pollTimer);
+  pollTimer = setInterval(async () => {
+    const resp = await api('/tasks/' + currentTaskId);
+    if (!resp.ok) return;
+    renderTask(await resp.json());
+  }, 2000);
+}
+
+function renderTask(t) {
+  $('taskStatus').textContent = t.status + ' · ' + (t.current_step || '');
+  $('taskStatus').className = 'status ' + t.status;
+  $('taskProgress').textContent = '进度 ' + t.progress + '%' + (t.reject_count ? ' · 已驳回 ' + t.reject_count + ' 次' : '');
+
+  if (t.step_details && t.step_details.understanding && t.step_details.understanding.result) {
+    $('llmJson').innerHTML = '<h2>AI 理解结果（LLM JSON）</h2><pre>' +
+      escapeHtml(JSON.stringify(t.step_details.understanding.result, null, 2)) + '</pre>';
+  }
+
+  const imgHtml = [];
+  const imageUrls = [];
+  if (t.step_details && t.step_details.rendering) {
+    const r = t.step_details.rendering;
+    if (r.front_image_url) {
+      imageUrls.push(r.front_image_url);
+      imgHtml.push('<h2>正面效果图</h2><img data-protected-src="' + r.front_image_url + '" alt="正面效果图" />');
+    }
+    if (r.isometric_image_url) {
+      imageUrls.push(r.isometric_image_url);
+      imgHtml.push('<h2>2.5D 等距图</h2><img data-protected-src="' + r.isometric_image_url + '" alt="2.5D 等距图" />');
+    }
+  }
+  if (t.result && t.result.design_notes && t.result.design_notes.length) {
+    imgHtml.push('<h2>设计说明</h2><ul>' + t.result.design_notes.map(n => '<li>' + escapeHtml(n) + '</li>').join('') + '</ul>');
+  }
+  if (t.result && t.result.hotspots && t.result.hotspots.length) {
+    imgHtml.push('<h2>热点</h2><pre>' + escapeHtml(JSON.stringify(t.result.hotspots, null, 2)) + '</pre>');
+  }
+  const resultKey = JSON.stringify([imageUrls, t.result?.design_notes, t.result?.hotspots]);
+  if (resultKey !== renderedImagesKey) {
+    for (const url of protectedObjectUrls) URL.revokeObjectURL(url);
+    protectedObjectUrls = [];
+    renderedImagesKey = resultKey;
+    $('images').innerHTML = imgHtml.join('');
+    void loadProtectedImages();
+  }
+
+  if (t.status === 'review') {
+    $('reviewBox').classList.remove('hidden');
+  } else {
+    $('reviewBox').classList.add('hidden');
+  }
+  if (t.status === 'completed' || t.status === 'failed') {
+    clearInterval(pollTimer);
+    if (t.error) $('taskStatus').textContent += ' · 错误：' + t.error.message;
+    refreshHistory();
+  }
+}
+
+async function review(action) {
+  const scoreRaw = $('scoreInput').value.trim();
+  const score = scoreRaw ? parseInt(scoreRaw, 10) : null;
+  const resp = await api('/tasks/' + currentTaskId + '/review', {
+    method:'POST', body: JSON.stringify({ action, score })
+  });
+  const data = await resp.json();
+  if (resp.ok) {
+    renderTask(data);
+    if (data.status === 'understanding') poll(); // 驳回后重新生成，继续轮询
+  } else {
+    alert((data.error && data.error.message) || '操作失败');
+  }
+}
+$('approveBtn').addEventListener('click', () => review('approve'));
+$('rejectBtn').addEventListener('click', () => review('reject'));
+
+async function refreshHistory() {
+  const resp = await api('/tasks');
+  if (!resp.ok) return;
+  const data = await resp.json();
+  const list = $('historyList');
+  if (!data.tasks || !data.tasks.length) { list.innerHTML = '<p class="muted">暂无历史记录</p>'; return; }
+  list.innerHTML = data.tasks.map(t =>
+    '<div class="hist-item" data-task-id="' + escapeHtml(t.task_id) + '">' +
+    '<b>' + escapeHtml(t.status) + '</b> · ' + escapeHtml(t.user_input || '') + '<br>' +
+    '<span class="muted">' + escapeHtml(t.created_at || '') + '</span></div>'
+  ).join('');
+}
+$('refreshHistBtn').addEventListener('click', refreshHistory);
+$('historyList').addEventListener('click', e => {
+  const item = e.target.closest('.hist-item');
+  if (item) loadTask(item.dataset.taskId);
+});
+
+function loadTask(id) {
+  currentTaskId = id;
+  resetRenderedImages();
+  $('taskCard').classList.remove('hidden');
+  api('/tasks/' + id).then(r => r.json()).then(renderTask);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function checkSession() {
+  if (!token) { showLogin(); return; }
+  try {
+    const resp = await api('/auth/me');
+    if (resp.ok) showMain();
+  } catch (error) {
+    showLogin();
+    $('loginErr').textContent = '无法连接服务，请刷新页面重试';
+  }
+}
+checkSession();
+</script>
+</body>
+</html>

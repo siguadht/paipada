@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>拍拍搭 · 当前正式页面一览</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f5f5f5; color: #191919; font: 16px/1.5 -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; }
+    header { max-width: 1100px; margin: 48px auto 28px; padding: 0 20px; }
+    h1 { font-size: clamp(28px, 5vw, 42px); margin: 0 0 12px; }
+    p { color: #646464; margin: 0; }
+    nav { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    a { color: inherit; }
+    nav a, section > a { display: inline-block; background: white; border: 1px solid #ddd; border-radius: 10px; padding: 9px 14px; text-decoration: none; }
+    main { max-width: 1100px; margin: auto; padding: 0 20px 64px; }
+    section { margin: 0 0 28px; background: white; border: 1px solid #e0e0e0; border-radius: 18px; padding: 22px; }
+    h2 { margin: 0 0 8px; font-size: 23px; }
+    section p { margin-bottom: 16px; }
+    img { display: block; width: 100%; height: auto; border: 1px solid #eee; border-radius: 10px; }
+    section > a { margin-top: 14px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>拍拍搭 · 当前正式页面</h1>
+    <p>2026-10-01 从正在运行的正式前端截取。示例房间图保留原色；下方展示的是页面布局与操作入口，图片生成质量另行评估。本页仅在本机开放。</p>
+    <nav>
+      <a href="#create">开始创作</a><a href="#homes">我的项目</a><a href="#project">项目详情</a><a href="#edit">效果图编辑</a><a href="#iso">2.5D 视图</a>
+    </nav>
+  </header>
+  <main>
+    <section id="create"><h2>01 开始创作</h2><p>上传原图，可补风格图和家具图，再输入改造要求。</p><img src="当前正式页-开始创作.png" alt="开始创作正式页面截图"><a href="http://127.0.0.1:3000/">打开实际页面 →</a></section>
+    <section id="homes"><h2>02 我的项目</h2><p>2026-10-01 更新：项目卡片和搜索入口适合业主与设计师共用，新建项目表单按需展开。</p><img src="项目改版-桌面总览.png" alt="我的项目正式页面截图"><a href="http://127.0.0.1:3000/homes">打开实际页面 →</a></section>
+    <section id="project"><h2>03 项目详情</h2><p>点开项目后查看空间列表、共用风格，并添加空间或修改项目设置。</p><img src="项目改版-桌面详情.png" alt="项目详情正式页面截图"><a href="http://127.0.0.1:3000/homes">打开实际页面 →</a></section>
+    <section id="edit"><h2>04 效果图编辑</h2><p>大图下可填写不满意的地方并重新生成，也可点击图中软装进入局部操作。方案记录现以图片版本卡展示，初始说明按需展开。</p><img src="方案记录改版-桌面一版.png" alt="效果图编辑正式页面截图"><a href="http://127.0.0.1:3000/design/2f96443a-6473-430e-9d22-b4eb3107f17e">打开实际页面 →</a></section>
+    <section id="iso"><h2>04 2.5D 视图</h2><p>从确认的正面图生成，可手动标注商品热点；当前仍是视觉示意，不是精确户型。</p><img src="当前正式页-2.5D.png" alt="2.5D 正式页面截图"><a href="http://127.0.0.1:3000/design/92f2a73f-0857-4f4d-bb13-21899894e6e3">打开实际页面并切换 2.5D →</a></section>
+  </main>
+</body>
+</html>

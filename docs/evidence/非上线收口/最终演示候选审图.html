@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>拍拍搭｜最终演示候选审图</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f6f6f5;color:#171717;font:16px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}main{max-width:1380px;margin:auto;padding:32px 24px 80px}h1{font-size:36px;line-height:1.2;margin:8px 0 12px}h2{font-size:23px;margin:48px 0 16px}p{color:#555;max-width:900px}.eyebrow{font-size:12px;letter-spacing:.12em;color:#777}.lead{font-size:18px}.pill{display:inline-block;padding:5px 11px;border:1px solid #ccc;border-radius:100px;margin:0 8px 8px 0;font-size:13px;background:white}.ok{border-color:#111;color:#111}.bad{border-color:#b84b4b;color:#a23636}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{background:white;border:1px solid #ddd;border-radius:16px;overflow:hidden}.card img{display:block;width:100%;height:auto}.card figcaption{padding:14px 18px;font-size:14px}.card strong{display:block;font-size:16px}.card small{color:#666}.full{grid-column:1/-1}.action{display:inline-block;background:#111;color:#fff;padding:12px 18px;border-radius:10px;text-decoration:none;margin:12px 12px 0 0}.secondary{background:white;color:#111;border:1px solid #ccc}.note{padding:18px 20px;background:#fff;border:1px solid #ddd;border-radius:12px}.warning{border-color:#b84b4b}.proof{width:100%;border-radius:12px;border:1px solid #ddd}a{color:inherit}@media(max-width:720px){main{padding:22px 14px 60px}h1{font-size:29px}.grid{grid-template-columns:1fr}.full{grid-column:auto}}
+  </style>
+</head>
+<body><main>
+  <div class="eyebrow">PAIPAIDA / 2026-10-02 / 真实模型候选</div>
+  <h1>这一轮全部结果，放在一页看</h1>
+  <p class="lead">本轮先做三张 2K 正面图，选第 01 张继续验证软装拆层、改色和 2.5D。产品经理已确认：01 通过、02 还行、03 直接淘汰。</p>
+  <span class="pill ok">01 正面图已通过</span><span class="pill">02 可作备选</span><span class="pill bad">03 已淘汰</span><span class="pill ok">15 件软装可悬停</span><span class="pill ok">沙发改色成功</span><span class="pill bad">2.5D 两张均未通过</span>
+  <div><a class="action" href="http://127.0.0.1:3000/design/6732a81f-3103-53ed-aad8-8c70b3726068">打开可交互方案</a><a class="action secondary" href="#compare">看图片对照</a></div>
+  <h2 id="compare">01 · 原照片与选出的正面图</h2>
+  <div class="grid">
+    <figure class="card"><img src="../../../data/uploads/5dd26281-5f98-46d9-a98b-515d66f3129e.jpg" alt="原始客厅照片"><figcaption><strong>原照片</strong><small>判断窗、顶面和机位时以此为准。</small></figcaption></figure>
+    <figure class="card"><img src="../../../data/qa-final-demo-candidates-20261002/candidate-01.jpg" alt="候选 01 效果图"><figcaption><strong>候选 01 · 已通过</strong><small>产品经理确认可用于最终产品演示的正面图。</small></figcaption></figure>
+  </div>
+  <h2>02 · 另两张候选</h2>
+  <div class="grid">
+    <figure class="card"><img src="../../../data/qa-final-demo-candidates-20261002/candidate-02.jpg" alt="候选 02 效果图"><figcaption><strong>候选 02 · 还行</strong><small>产品经理评价“还行”，保留备选。</small></figcaption></figure>
+    <figure class="card"><img src="../../../data/qa-final-demo-candidates-20261002/candidate-03.jpg" alt="候选 03 效果图"><figcaption><strong>候选 03 · 淘汰</strong><small>产品经理明确要求 pass；电视与沙发关系也有问题。</small></figcaption></figure>
+  </div>
+  <h2>03 · 软装操作</h2>
+  <div class="grid">
+    <figure class="card"><img src="../../../data/qa-final-demo-candidates-20261002/candidate-01.jpg" alt="沙发改色前"><figcaption><strong>改色前</strong><small>米白色沙发。</small></figcaption></figure>
+    <figure class="card"><img src="../../../data/qa-final-demo-finish-20261002/recolor.jpg" alt="沙发改色后"><figcaption><strong>真实模型改色后</strong><small>沙发变为深橄榄绿色；其他主要物品和构图大体保留。未把这张写成主版本。</small></figcaption></figure>
+  </div>
+  <p>独立方案已装入 15 件透明软装图层：移到沙发、单椅、茶几、地毯、窗帘、绿植、灯、电视柜等物品上，会出现轮廓与替换、改色、删除按钮。替换选品窗出现在物品旁，可拖动。点击“生成修改”会产生新的模型费用，本轮没有通过该按钮再次提交。</p>
+  <img class="proof" src="最终演示候选页面-软装悬停.png" alt="实测页面里沙发悬停和可拖动选品窗口">
+  <h2>04 · 2.5D 未通过</h2>
+  <div class="note warning">两次 2.5D 都把公寓画成有斜屋顶的房间。虽然软装大体对应，但空间形态错误，因此没有写进可交互方案，也不能称为最终产品演示完成。</div>
+  <div class="grid" style="margin-top:18px">
+    <figure class="card"><img src="../../../data/qa-final-demo-finish-20261002/iso.jpg" alt="第一次 2.5D 失败图"><figcaption><strong>第一次 · 不通过</strong><small>出现尖屋顶。</small></figcaption></figure>
+    <figure class="card"><img src="../../../data/qa-final-demo-finish-20261002/iso-corrected.jpg" alt="修正后的 2.5D 失败图"><figcaption><strong>允许范围内一次修正 · 仍不通过</strong><small>墙体仍形成斜屋顶。</small></figcaption></figure>
+  </div>
+  <h2>05 · 正在验证的平层结构参照</h2>
+  <div class="note">这是离线画出的几何输入，不是最终 2.5D 成品。它明确给出矩形地面、两面等高直立墙、完全开放的顶部、窗与软装相对位置；下一轮模型会同时参考它和已通过的 01 正面图。</div>
+  <figure class="card" style="margin:18px 0"><img src="../../../data/qa-final-demo-finish-20261002/iso-flat-structure-guide.png" alt="平层开放式 2.5D 几何引导图"><figcaption><strong>平顶开放式空间结构图 · 离线预检</strong><small>家具方块只表示位置，最终写实材质应以 01 正面图为准。尚无新模型输出。</small></figcaption></figure>
+  <p>本轮 3 张正面、1 次拆层、1 次改色和 2 张 2.5D 共 7 次流程调用（拆层按输出张数计费）。按公开单价估算图片费用约 ¥5.40，实际金额以火山账单为准；没有自动重试，没有超过授权的约 ¥6.00 图片费用上限。</p>
+</main></body></html>

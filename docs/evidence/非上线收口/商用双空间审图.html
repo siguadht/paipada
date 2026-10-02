@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>拍拍搭 · 商用双空间审图</title>
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f4f4f3; color: #171717; font: 16px/1.55 -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    main { max-width: 1320px; margin: auto; padding: 36px 24px 80px; }
+    h1 { margin: 0; font-size: clamp(28px, 4vw, 42px); letter-spacing: -.03em; }
+    h2 { margin: 0 0 18px; font-size: 25px; }
+    p { margin: 8px 0 0; color: #666; }
+    .note { margin-top: 16px; max-width: 850px; }
+    section { margin-top: 40px; padding: 26px; background: #fff; border: 1px solid #ddd; border-radius: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    figure { margin: 0; }
+    figure.wide { grid-column: 1 / -1; }
+    figcaption { font-size: 14px; font-weight: 650; padding: 0 0 9px; }
+    img { display: block; width: 100%; height: auto; border-radius: 11px; background: #eee; }
+    a { color: inherit; }
+    .criteria { margin-top: 20px; padding-top: 16px; border-top: 1px solid #e8e8e8; color: #555; font-size: 14px; }
+    @media (max-width: 700px) { main { padding: 24px 12px 60px; } section { padding: 14px; border-radius: 14px; } .grid { grid-template-columns: 1fr; } figure.wide { grid-column: auto; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>商用双空间 · 真实生成对照</h1>
+    <p class="note">使用您选的两张空房原图。第一间正面图确认后生成 2.5D，并作为第二间的风格参考。两张是否属于同一物业未核实；本页只验收双空间流程、结构保持与风格衔接。2.5D 为视觉示意，不代表精确户型。</p>
+    <section>
+      <h2>01 大空间 · 会客协作区</h2>
+      <div class="grid">
+        <figure><figcaption>原图</figcaption><a href="../../../data/qa-business-space-20261001/large_room.jpg" target="_blank"><img src="../../../data/qa-business-space-20261001/large_room.jpg" alt="大空间原图"></a></figure>
+        <figure><figcaption>正面效果图</figcaption><a href="../../../data/qa-business-space-20261001/generated/e7899e6c-c8c4-4c25-83ab-6def5c9438da_front_ed085c4f.jpg" target="_blank"><img src="../../../data/qa-business-space-20261001/generated/e7899e6c-c8c4-4c25-83ab-6def5c9438da_front_ed085c4f.jpg" alt="大空间正面效果图"></a></figure>
+        <figure class="wide"><figcaption>基于这张正面图生成的 2.5D 示意</figcaption><a href="../../../data/qa-business-space-20261001/generated/e7899e6c-c8c4-4c25-83ab-6def5c9438da_iso_57fbe863.jpg" target="_blank"><img src="../../../data/qa-business-space-20261001/generated/e7899e6c-c8c4-4c25-83ab-6def5c9438da_iso_57fbe863.jpg" alt="大空间 2.5D 示意图"></a></figure>
+      </div>
+      <div class="criteria">重点看：两组窗、右侧白墙、吊顶和地砖是否保留；沙发、茶几、座椅、柜体与绿植的位置是否能接受。</div>
+    </section>
+    <section>
+      <h2>02 小空间 · 洽谈室</h2>
+      <div class="grid">
+        <figure><figcaption>原图</figcaption><a href="../../../data/qa-business-space-20261001/small_room.jpg" target="_blank"><img src="../../../data/qa-business-space-20261001/small_room.jpg" alt="小空间原图"></a></figure>
+        <figure><figcaption>引用第一间风格后的正面效果图</figcaption><a href="../../../data/qa-business-space-20261001/generated/83657a82-eaa4-4cf9-b7e2-d1668997b58d_front_521395c8.jpg" target="_blank"><img src="../../../data/qa-business-space-20261001/generated/83657a82-eaa4-4cf9-b7e2-d1668997b58d_front_521395c8.jpg" alt="小空间正面效果图"></a></figure>
+      </div>
+      <div class="criteria">重点看：尽端整面窗、两侧墙和原吊顶是否保留；米白、浅木和深灰是否与第一间协调；四把椅子与圆桌是否适合这个空间。</div>
+    </section>
+  </main>
+</body>
+</html>
