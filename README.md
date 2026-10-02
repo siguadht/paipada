@@ -18,9 +18,9 @@
 
 ![已验收的软装悬停及替换界面](frontend/public/site/approved-interaction.webp)
 
-[观看 15 秒预录演示剪辑](frontend/public/site/approved-demo-tour.mp4) · [查看对应的 2.5D 页面](frontend/public/site/approved-25d-ui.webp)
+[观看 29 秒 OBS 操作录屏](frontend/public/site/obs-interaction-demo.mp4) · [查看对应的 2.5D 页面](frontend/public/site/approved-25d-ui.webp)
 
-这段视频由已验收的效果图、真实产品界面截图和对应的 2.5D 页面剪辑而成，**不是一次连续操作录屏，也不代表现场生图成功率**。
+这段视频连续录下已验收方案中的家具悬停、选品窗拖动和改色入口，配乐为本项目原创合成。**它不包含随机新图生成，也不代表现场生图成功率**。
 
 ## 已实现
 

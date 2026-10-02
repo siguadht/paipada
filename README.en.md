@@ -18,9 +18,9 @@ Upload a room photo and generate a front view. Hover over or select furniture to
 
 ![Approved furniture hover and replacement interface](frontend/public/site/approved-interaction.webp)
 
-[Watch the 15-second prerecorded tour](frontend/public/site/approved-demo-tour.mp4) · [See the matching 2.5D view](frontend/public/site/approved-25d-ui.webp)
+[Watch the 29-second OBS screen recording](frontend/public/site/obs-interaction-demo.mp4) · [See the matching 2.5D view](frontend/public/site/approved-25d-ui.webp)
 
-The video is an edit of approved imagery, actual product-interface screenshots, and the matching 2.5D page. **It is not a continuous screen recording or a claim about live generation reliability.**
+The video continuously records furniture hover, a movable product picker, and the recolor control on an approved concept, with original synthesized music. **It does not show new image generation or claim reliable results for arbitrary rooms.**
 
 ## Implemented
 
