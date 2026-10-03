@@ -22,6 +22,12 @@ Upload a room photo and generate a front view. Hover over or select furniture to
 
 The video continuously records furniture hover, a movable product picker, and the recolor control on an approved concept, with original synthesized music. **It does not show new image generation or claim reliable results for arbitrary rooms.**
 
+## Interactive website preview
+
+![Sofa hover and editing controls on the website](frontend/public/site/website-interaction-preview.png)
+
+On `/website`, hover over the hero sofa (tap it on mobile) to try replace, recolor, and remove. The image switches between pre-generated samples of the same room; **this is not live image generation**. You can also switch languages and view the screen recording and 2.5D concept. The website currently runs locally and is not publicly deployed.
+
 ## Implemented
 
 - Invitation login, user-level data isolation, uploads, and project history.
