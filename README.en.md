@@ -22,11 +22,17 @@ Upload a room photo and generate a front view. Hover over or select furniture to
 
 The video continuously records furniture hover, a movable product picker, and the recolor control on an approved concept, with original synthesized music. **It does not show new image generation or claim reliable results for arbitrary rooms.**
 
+## Full studio workflow video
+
+[Watch the 1080p studio walkthrough](frontend/public/site/product-workflow-demo.mp4): invite login, room upload and prompt, decor hover and the movable picker on an approved result, structure review, 2.5D, version history, and a multi-room project. The OBS recording is about 2 minutes 15 seconds, with original light music.
+
+The upload uses a [public empty-room sample by Curtis Adams / Pexels](https://www.pexels.com/photo/empty-bedroom-10099332/). Later footage continues with a **different** approved design 01. The splice is labeled in the film and does not suggest live generation. The historical review scene blurs the original photo; no new paid edit was submitted. The invitation code is hidden.
+
 ## Interactive website preview
 
 ![Sofa hover and editing controls on the website](frontend/public/site/website-interaction-preview.png)
 
-On `/website`, hover over the hero sofa (tap it on mobile) to try replace, recolor, and remove. The image switches between pre-generated samples of the same room; **this is not live image generation**. You can also switch languages and view the screen recording and 2.5D concept. The website currently runs locally and is not publicly deployed.
+On `/website`, hover over the hero sofa (tap it on mobile) to try replace, recolor, and remove. The image switches between pre-generated samples of the same room; **this is not live image generation**. You can also switch languages and view the full studio walkthrough and 2.5D concept. The website currently runs locally and is not publicly deployed.
 
 ## Implemented
 

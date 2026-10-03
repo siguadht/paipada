@@ -8,6 +8,7 @@ import styles from "./website.module.css";
 type Language = "zh" | "en";
 type DemoView = "base" | "replace" | "recolor" | "remove";
 type DemoAction = Exclude<DemoView, "base">;
+type JourneyStep = 0 | 1 | 2 | 3 | 4;
 
 const demoImages: Record<DemoView, string> = {
   base: "/site/website-demo/base.jpg",
@@ -18,7 +19,7 @@ const demoImages: Record<DemoView, string> = {
 
 const copy = {
   zh: {
-    nav: ["体验软装编辑", "演示视频", "空间示意"],
+    nav: ["体验软装编辑", "完整流程", "演示视频"],
     switchLanguage: "EN", enter: "进入工作台",
     eyebrow: "拍拍搭 · 空间设计工作台",
     title: "在图上改软装，\n直到满意。",
@@ -36,19 +37,32 @@ const copy = {
     },
     apply: "查看结果", close: "关闭", reset: "回到原版",
     stateLabels: { base: "原版", replace: "替换结果", recolor: "改色结果", remove: "删除结果" },
+    journeyEyebrow: "完整流程 / 01—05", journeyTitle: "一张照片，走到完整方案。",
+    journeyIntro: "从上传房间到查看 2.5D，每一步都保留决定权。点击步骤，看看作品如何推进。",
+    journeySteps: [
+      { title: "上传房间", body: "放入原始房间照片；风格图和指定家具图按需添加。" },
+      { title: "生成效果图", body: "写下想要的风格与约束，先得到可讨论的正面效果图。" },
+      { title: "直接改软装", body: "在图里选中家具，替换、改色或删除；不满意也能描述整张图的问题。" },
+      { title: "确认这一版", body: "对照原照片检查门窗、墙地面和视角；有问题就继续修改。" },
+      { title: "查看 2.5D", body: "只在正面图满意后，生成与这一版对应的空间摆放示意。" },
+    ],
+    journeyPreview: ["创作输入示意", "已验收结果接续 · 非现场生图", "软装交互样例", "核对项示意 · 原图对照在工作台完成", "对应版本的 2.5D 示意"],
+    journeyRoom: "原始房间照片", journeyStyle: "整体风格参考", journeyFurniture: "指定家具参考", journeyOptional: "可选",
+    journeyPrompt: "保留门窗和视角，换上简洁温暖的软装。", journeyApproved: "正面图满意，再进入下一步", journeyCheck: ["门窗位置", "墙面与地面", "拍摄视角"],
     proofTitle: "从真实房间出发，\n让想法落在眼前。",
     proofBody: "不是从一张空白画布开始。保留房间的视角与主要结构，在已有空间里讨论软装。",
     approved: "已验收空间方案 01",
-    filmTitle: "交互是什么感觉？\n看一遍真实操作。",
-    filmBody: "真实录屏展示家具悬停、旁边出现操作、移动选品窗与改色入口。",
-    filmNote: "视频展示已验收样例的实际界面操作。生成新图仍需等待，画质因原图和模型结果而异。",
+    filmTitle: "从上传到 2.5D，\n看完整流程。",
+    filmBody: "真实工作台录屏：从邀请码登录、上传照片与填写要求，到效果图上选家具、拖动选品窗、核对结构、查看 2.5D，再看版本记录与多空间项目。",
+    filmNote: "上传画面使用公开房间样例；之后接续另一份已验收的 01 方案。本片未现场生图，也未提交付费编辑。确认页来自历史方案，原图细节已遮蔽；2.5D 来自已验收的 01 方案。",
+    filmQuality: "1080P · OBS 工作台录屏", filmDownload: "下载高清原片", filmChapters: ["登录与上传", "效果图编辑", "结构与 2.5D", "历史版本", "多空间项目"],
     spatialTitle: "效果图满意了，\n再看 2.5D。",
     spatialBody: "正面图确定后，才生成对应版本的空间示意。它帮助理解摆放，不作为精确户型或施工图。",
     spatialTag: "与方案 01 对应的 2.5D 示意",
     finalTitle: "从你的空间，开始创作。", footer: "AI 软装创作工作台", source: "查看源码",
   },
   en: {
-    nav: ["Try decor editing", "Demo film", "Spatial view"],
+    nav: ["Try decor editing", "Full workflow", "Demo film"],
     switchLanguage: "中文", enter: "Open studio",
     eyebrow: "Paipaida · Spatial design studio",
     title: "Edit the room itself,\nuntil it feels right.",
@@ -66,12 +80,25 @@ const copy = {
     },
     apply: "View result", close: "Close", reset: "Back to original",
     stateLabels: { base: "Original", replace: "Replaced", recolor: "Recolored", remove: "Removed" },
+    journeyEyebrow: "THE WORKFLOW / 01—05", journeyTitle: "From one photo to a complete concept.",
+    journeyIntro: "You stay in control from the room upload to the 2.5D view. Select a step to see how the project moves forward.",
+    journeySteps: [
+      { title: "Upload the room", body: "Add the original room photo. Style and product references are optional." },
+      { title: "Generate a front view", body: "Describe the style and constraints to get a front view you can discuss." },
+      { title: "Edit decor in place", body: "Select furniture to replace, recolor, or remove it, or describe a wider issue." },
+      { title: "Approve this version", body: "Compare with the original and check windows, walls, floor, and viewpoint." },
+      { title: "Explore 2.5D", body: "Only after approval, create a matching spatial placement concept." },
+    ],
+    journeyPreview: ["Creation input illustration", "Approved result · not live generation", "Interactive decor example", "Review illustration · compare the original in the studio", "Matching 2.5D concept"],
+    journeyRoom: "Original room photo", journeyStyle: "Style reference", journeyFurniture: "Furniture reference", journeyOptional: "Optional",
+    journeyPrompt: "Keep the windows and viewpoint; use calm, warm furnishings.", journeyApproved: "Approve the front view first", journeyCheck: ["Windows and doors", "Walls and floor", "Viewpoint"],
     proofTitle: "Start with a real room.\nSee the idea take shape.",
     proofBody: "Work with the room you already have. Keep its viewpoint and main structure while exploring decor ideas.",
     approved: "Approved spatial concept 01",
-    filmTitle: "What does it feel like?\nWatch a real session.",
-    filmBody: "A real recording of furniture hover, nearby actions, a movable product picker, and the recolor entry.",
-    filmNote: "The video shows an approved example in the real interface. Generating a new image takes time, and quality varies by photo and model result.",
+    filmTitle: "From upload to 2.5D.\nSee the full workflow.",
+    filmBody: "An actual studio recording: invite login, photo upload, design prompt, furniture selection and movable product picker, structure review, 2.5D, version history, and a multi-room project.",
+    filmNote: "The upload uses a public sample room. The later edit footage continues with a different approved design 01. No live image generation or paid edit was submitted. The review screen is from a historical design with original-photo details blurred; the 2.5D belongs to approved design 01.",
+    filmQuality: "1080p · OBS studio recording", filmDownload: "Download HD video", filmChapters: ["Login & upload", "Edit decor", "Review & 2.5D", "Versions", "Multi-room project"],
     spatialTitle: "Approve the image.\nThen explore its 2.5D view.",
     spatialBody: "The matching spatial concept is generated after the front view is approved. It illustrates placement, not a measured floor plan.",
     spatialTag: "2.5D concept for approved version 01",
@@ -88,6 +115,7 @@ export default function WebsitePage() {
   const [view, setView] = useState<DemoView>("base");
   const [selected, setSelected] = useState(false);
   const [action, setAction] = useState<DemoAction | null>(null);
+  const [journeyStep, setJourneyStep] = useState<JourneyStep>(0);
   const t = copy[language];
 
   const resetDemo = () => {
@@ -106,7 +134,7 @@ export default function WebsitePage() {
     <header className={styles.header}>
       <a href="#top" className={styles.logo} aria-label="拍拍搭 Paipaida">拍拍搭<span className={styles.logoDot} /></a>
       <nav aria-label={language === "zh" ? "官网导航" : "Website navigation"}>
-        <a href="#experience">{t.nav[0]}</a><a href="#film">{t.nav[1]}</a><a href="#spatial">{t.nav[2]}</a>
+        <a href="#experience">{t.nav[0]}</a><a href="#journey">{t.nav[1]}</a><a href="#film">{t.nav[2]}</a>
       </nav>
       <div className={styles.headerActions}>
         <button className={styles.language} type="button" onClick={() => setLanguage(language === "zh" ? "en" : "zh")} aria-label={language === "zh" ? "Switch to English" : "切换中文"}>{t.switchLanguage}</button>
@@ -150,6 +178,21 @@ export default function WebsitePage() {
       </div>
     </section>
 
+    <section className={styles.journey} id="journey" aria-labelledby="journey-title">
+      <div className={styles.journeyHeading}><div><span className={styles.sectionNumber}>{t.journeyEyebrow}</span><h2 id="journey-title">{t.journeyTitle}</h2></div><p>{t.journeyIntro}</p></div>
+      <div className={styles.journeyLayout}>
+        <div className={styles.journeySteps} role="tablist" aria-label={t.journeyTitle}>
+          {t.journeySteps.map((step, index) => <button key={step.title} type="button" role="tab" aria-selected={journeyStep === index} className={journeyStep === index ? styles.journeyStepActive : ""} onClick={() => setJourneyStep(index as JourneyStep)}><span>{String(index + 1).padStart(2, "0")}</span><strong>{step.title}</strong><small>{step.body}</small><span className={styles.journeyArrow} aria-hidden="true">↗</span></button>)}
+        </div>
+        <div className={styles.journeyStage} role="tabpanel" aria-label={t.journeySteps[journeyStep].title}>
+          <div className={styles.journeyStageTop}><span>PAIPAIDA / {String(journeyStep + 1).padStart(2, "0")}</span><span>{t.journeyPreview[journeyStep]}</span></div>
+          {journeyStep === 0 ? <div className={styles.journeyUpload}><div className={styles.journeyUploadMain}><span>＋</span><strong>{t.journeyRoom}</strong></div><div className={styles.journeyUploadRefs}><div><span>＋</span>{t.journeyStyle}<small>{t.journeyOptional}</small></div><div><span>＋</span>{t.journeyFurniture}<small>{t.journeyOptional}</small></div></div><p>{t.journeyPrompt}</p></div> :
+            <div className={styles.journeyImage}><Image src={journeyStep === 4 ? "/site/approved-25d.webp" : journeyStep === 2 ? "/site/website-demo/replace.jpg" : "/site/approved-front.webp"} alt={t.journeyPreview[journeyStep]} fill sizes="(max-width: 900px) 100vw, 58vw" />{journeyStep === 2 && <div className={styles.journeyOverlay}><strong>{t.sofa}</strong><span>{t.actions.replace}</span><span>{t.actions.recolor}</span><span>{t.actions.remove}</span></div>}{journeyStep === 3 && <div className={styles.journeyReview}>{t.journeyCheck.map((item) => <span key={item}>✓ {item}</span>)}<strong>{t.journeyApproved}</strong></div>}</div>}
+          <div className={styles.journeyStageFoot}><strong>{t.journeySteps[journeyStep].title}</strong><span>{String(journeyStep + 1).padStart(2, "0")} / 05</span></div>
+        </div>
+      </div>
+    </section>
+
     <section className={styles.proof}>
       <div className={styles.sectionCopy}><h2><BreakLines text={t.proofTitle} /></h2><p>{t.proofBody}</p></div>
       <div className={styles.proofImage}><Image src="/site/approved-front.webp" alt={t.approved} fill sizes="100vw" /><span>{t.approved}</span></div>
@@ -157,7 +200,9 @@ export default function WebsitePage() {
 
     <section className={styles.film} id="film">
       <div className={styles.filmCopy}><span className={styles.sectionNumber}>01 / 02</span><h2><BreakLines text={t.filmTitle} /></h2><p>{t.filmBody}</p></div>
-      <div className={styles.filmFrame}><video controls playsInline preload="metadata" poster="/site/approved-interaction.webp" aria-label={language === "zh" ? "播放真实操作录屏" : "Play real interaction recording"}><source src="/site/obs-interaction-demo.mp4" type="video/mp4" /></video></div>
+      <div className={styles.filmFrame}><video controls playsInline preload="metadata" poster="/site/product-workflow-poster.jpg" aria-label={language === "zh" ? "播放工作台完整流程录屏" : "Play studio workflow recording"}><source src="/site/product-workflow-demo.mp4" type="video/mp4" /></video></div>
+      <div className={styles.filmTools}><span>{t.filmQuality}</span><a href="/site/product-workflow-demo.mp4" download>{t.filmDownload} ↗</a></div>
+      <ol className={styles.filmChapters}>{t.filmChapters.map((chapter, index) => <li key={chapter}><span>{String(index + 1).padStart(2, "0")}</span>{chapter}</li>)}</ol>
       <p className={styles.filmNote}>{t.filmNote}</p>
     </section>
 

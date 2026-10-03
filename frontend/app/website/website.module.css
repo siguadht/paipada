@@ -53,6 +53,42 @@
 .demoFoot p{margin:0;line-height:1.5}
 .demoIndex{letter-spacing:.11em;white-space:nowrap}
 .mobileHint{display:none}
+.journey{max-width:1660px;margin:0 auto;padding:25px clamp(24px,4vw,72px) 130px;scroll-margin-top:86px}
+.journeyHeading{border-top:1px solid var(--line);padding-top:38px;display:flex;justify-content:space-between;align-items:end;gap:45px;margin-bottom:38px}
+.journeyHeading h2{font-size:clamp(42px,4.1vw,70px);letter-spacing:-.065em;line-height:1.08;margin:19px 0 0;font-weight:700;max-width:12ch}
+.journeyHeading p{max-width:34ch;margin:0 0 5px;color:var(--muted);font-size:16px;line-height:1.8}
+.journeyLayout{display:grid;grid-template-columns:minmax(290px,.72fr) minmax(0,1.28fr);gap:clamp(32px,5vw,85px);align-items:start}
+.journeySteps{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.journeySteps button{border:0;border-bottom:1px solid var(--line);padding:20px 35px 20px 0;display:grid;grid-template-columns:41px minmax(0,1fr);column-gap:9px;row-gap:8px;text-align:left;background:transparent;color:#777;position:relative;transition:color .2s,padding-left .2s}
+.journeySteps button:hover{color:#111;padding-left:8px}
+.journeySteps button>span:first-child{font-size:12px;font-weight:700;letter-spacing:.08em;padding-top:5px}
+.journeySteps strong{font-size:20px;letter-spacing:-.025em;line-height:1.2}
+.journeySteps small{grid-column:2;font-size:13px;line-height:1.6;max-width:35ch;color:#777}
+.journeySteps .journeyArrow{position:absolute;right:4px;top:18px;font-size:19px;opacity:0;transform:translate(-5px,5px);transition:opacity .2s,transform .2s}
+.journeySteps .journeyStepActive{color:#111}
+.journeySteps .journeyStepActive small{color:#444}
+.journeySteps .journeyStepActive .journeyArrow,.journeySteps button:hover .journeyArrow{opacity:1;transform:none}
+.journeyStage{background:#f6f6f5;border:1px solid var(--line);border-radius:19px;padding:18px;min-width:0}
+.journeyStageTop,.journeyStageFoot{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:11px;color:#777}
+.journeyStageTop{padding:1px 3px 15px;letter-spacing:.04em}
+.journeyStageTop span:first-child{font-weight:700;color:#111;letter-spacing:.12em}
+.journeyStageFoot{padding:17px 3px 3px}
+.journeyStageFoot strong{font-size:14px;color:#111}
+.journeyImage,.journeyUpload{position:relative;aspect-ratio:1.52;background:#fff;border-radius:12px;overflow:hidden}
+.journeyImage img{object-fit:cover}
+.journeyUpload{padding:clamp(22px,4vw,52px);display:flex;flex-direction:column;justify-content:center;gap:18px}
+.journeyUploadMain{border:1px dashed #aaa;border-radius:12px;display:flex;gap:13px;align-items:center;justify-content:center;padding:clamp(28px,5vw,65px);font-size:18px}
+.journeyUploadMain span,.journeyUploadRefs span{font-size:28px;font-weight:300;line-height:1}
+.journeyUploadRefs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.journeyUploadRefs>div{border:1px solid var(--line);border-radius:9px;min-height:74px;padding:12px;display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700}
+.journeyUploadRefs small{margin-left:auto;font-size:11px;font-weight:400;color:#888}
+.journeyUpload p{border-top:1px solid var(--line);padding-top:16px;margin:0;color:#666;font-size:13px;line-height:1.5}
+.journeyOverlay,.journeyReview{position:absolute;left:5%;bottom:8%;display:flex;align-items:center;gap:3px;background:#fff;padding:6px;border-radius:10px;box-shadow:0 12px 40px #0003;font-size:12px}
+.journeyOverlay strong{padding:8px 12px;border-right:1px solid var(--line)}
+.journeyOverlay span{padding:8px 10px}
+.journeyReview{left:auto;right:4%;bottom:5%;display:grid;gap:10px;padding:18px;font-size:12px}
+.journeyReview span{color:#3b3b3b}
+.journeyReview strong{border-top:1px solid var(--line);padding-top:10px}
 .proof{padding:0 clamp(24px,4vw,72px) 120px;max-width:1660px;margin:auto}
 .sectionCopy{display:flex;align-items:end;justify-content:space-between;gap:60px;padding:0 0 36px;border-top:1px solid var(--line)}
 .sectionCopy h2,.film h2,.spatial h2{font-size:clamp(40px,4.1vw,68px);line-height:1.13;letter-spacing:-.065em;margin:36px 0 0;font-weight:700}
@@ -67,6 +103,11 @@
 .filmCopy p{margin:0 0 5px;max-width:35ch;color:var(--muted);font-size:16px;line-height:1.8}
 .filmFrame{max-width:1516px;margin:auto;aspect-ratio:16/9;background:#111;border-radius:18px;overflow:hidden}
 .filmFrame video{display:block;width:100%;height:100%;object-fit:contain}
+.filmTools{max-width:1516px;margin:17px auto 0;display:flex;justify-content:space-between;align-items:center;gap:15px;font-size:12px;font-weight:700}
+.filmTools a{border-bottom:1px solid #111;padding-bottom:4px}
+.filmChapters{max-width:1516px;margin:24px auto 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.filmChapters li{display:flex;align-items:center;gap:13px;padding:18px 10px 18px 0;font-size:13px;font-weight:700;white-space:nowrap}
+.filmChapters li span{color:#777;font-size:11px;letter-spacing:.07em}
 .filmNote{max-width:1516px;margin:15px auto 0;color:#707070;font-size:12px;line-height:1.6}
 .spatial{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;max-width:1660px;margin:auto;padding:120px clamp(24px,4vw,72px);gap:clamp(50px,7vw,120px)}
 .spatialImage{position:relative;aspect-ratio:1.38;background:#f4f4f4;border-radius:18px;overflow:hidden}
@@ -96,6 +137,13 @@
   .hero h1{font-size:clamp(46px,7vw,68px)}
   .heroIntro{max-width:58ch}
   .demoCanvas{max-width:none}
+  .journeyHeading{align-items:start}
+  .journeyLayout{grid-template-columns:1fr;gap:25px}
+  .journeySteps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:0;gap:6px}
+  .journeySteps button{display:block;text-align:center;padding:12px 4px!important;border:1px solid var(--line);border-radius:8px;font-size:11px}
+  .journeySteps button strong{display:block;font-size:12px;margin-top:4px}
+  .journeySteps button small,.journeySteps .journeyArrow{display:none}
+  .journeySteps .journeyStepActive{background:#111;color:#fff;border-color:#111}
   .sectionCopy{display:block}
   .sectionCopy p{margin-top:24px}
   .proofImage{aspect-ratio:1.5}
@@ -128,6 +176,27 @@
   .applyButton{padding:9px 11px}
   .resultControls{right:7px;top:7px;font-size:10px;gap:7px}
   .resultControls button{font-size:10px;padding:6px 8px}
+  .journey{padding:10px 18px 75px}
+  .journeyHeading{display:block;padding-top:24px;margin-bottom:25px}
+  .journeyHeading h2{font-size:clamp(35px,9vw,48px)}
+  .journeyHeading p{font-size:14px;margin-top:15px}
+  .journeySteps{gap:4px}
+  .journeySteps button{padding:10px 2px!important}
+  .journeySteps button>span:first-child{font-size:10px}
+  .journeySteps button strong{font-size:10px;line-height:1.3}
+  .journeyStage{padding:9px;border-radius:12px}
+  .journeyStageTop{font-size:9px;padding:3px 3px 9px}
+  .journeyImage,.journeyUpload{aspect-ratio:1.2}
+  .journeyUpload{padding:15px;gap:8px}
+  .journeyUploadMain{padding:22px 8px;font-size:14px}
+  .journeyUploadRefs{gap:6px}
+  .journeyUploadRefs>div{min-height:52px;padding:6px;font-size:10px;gap:3px}
+  .journeyUploadRefs span{font-size:18px}
+  .journeyUploadRefs small{font-size:9px}
+  .journeyUpload p{font-size:10px;padding-top:8px}
+  .journeyOverlay{font-size:10px;left:3%;bottom:4%}
+  .journeyOverlay strong,.journeyOverlay span{padding:5px}
+  .journeyReview{padding:9px;font-size:10px;gap:5px}
   .proof{padding:0 18px 72px}
   .sectionCopy{padding-bottom:26px}
   .sectionCopy h2,.film h2,.spatial h2{font-size:clamp(35px,9vw,49px);margin-top:27px}
@@ -138,6 +207,10 @@
   .filmCopy{display:block;margin-bottom:25px}
   .film h2{margin:15px 0 16px}
   .filmFrame{border-radius:12px}
+  .filmTools{font-size:11px}
+  .filmChapters{grid-template-columns:repeat(3,1fr);row-gap:0}
+  .filmChapters li{font-size:10px;gap:5px;padding:11px 2px 11px 0}
+  .filmChapters li span{font-size:9px}
   .filmNote{font-size:11px}
   .spatial{padding:75px 18px;gap:35px}
   .spatialImage{border-radius:12px;aspect-ratio:1.2}

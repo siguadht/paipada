@@ -147,7 +147,7 @@ export default function Home() {
               <h2 id="create-title">先输入邀请码</h2>
               <p className="muted">你的照片与方案只会出现在自己的账号里。</p>
               <label htmlFor="invite">邀请码</label>
-              <input id="invite" value={invite} onChange={(e) => setInvite(e.target.value)} placeholder="输入收到的邀请码" autoComplete="off" required minLength={4} />
+              <input id="invite" type="password" value={invite} onChange={(e) => setInvite(e.target.value)} placeholder="输入收到的邀请码" autoComplete="off" required minLength={4} />
               <button className="primary-button" disabled={busy}>{busy ? "验证中…" : "进入拍拍搭"}<ArrowRight size={18} /></button>
             </form>
           ) : (
