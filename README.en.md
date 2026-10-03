@@ -32,7 +32,7 @@ The upload uses a [public empty-room sample by Curtis Adams / Pexels](https://ww
 
 ![Sofa hover and editing controls on the website](frontend/public/site/website-interaction-preview.png)
 
-On `/website`, hover over the hero sofa (tap it on mobile) to try replace, recolor, and remove. The image switches between pre-generated samples of the same room; **this is not live image generation**. A draggable comparison slider shows generated views of the same living room before and after replacing the sofa; it is not an original-room versus renovation comparison. You can also switch languages and view the full studio walkthrough and 2.5D concept. The website currently runs locally and is not publicly deployed.
+On `/website`, hover over the hero sofa (tap it on mobile) to try replace, recolor, and remove. The image switches between pre-generated samples of the same room; **this is not live image generation**. A draggable slider compares the [original public bedroom photo](https://www.pexels.com/photo/empty-bedroom-10099332/) with the generated furnished view of that same room. The photo is by Curtis Adams / Pexels; dragging does not run generation. You can also switch languages and view the full studio walkthrough and 2.5D concept. The website currently runs locally and is not publicly deployed.
 
 ## Implemented
 

@@ -49,9 +49,10 @@ const copy = {
     journeyPreview: ["创作输入示意", "已验收结果接续 · 非现场生图", "软装交互样例", "核对项示意 · 原图对照在工作台完成", "对应版本的 2.5D 示意"],
     journeyRoom: "原始房间照片", journeyStyle: "整体风格参考", journeyFurniture: "指定家具参考", journeyOptional: "可选",
     journeyPrompt: "保留门窗和视角，换上简洁温暖的软装。", journeyApproved: "正面图满意，再进入下一步", journeyCheck: ["门窗位置", "墙面与地面", "拍摄视角"],
-    proofTitle: "同一个空间，\n换一件就不一样。",
-    proofBody: "拖动滑块，对比同一客厅替换沙发前后的已生成结果。这是软装修改对比，不是原始房间与装修效果图的对比。",
-    compareBefore: "替换前", compareAfter: "替换后", compareControl: "拖动查看沙发替换前后的对比",
+    proofTitle: "从原始房间，\n看到布置后的样子。",
+    proofBody: "拖动滑块，直接对照同一间卧室的原始照片与 AI 生成效果图。图片是预先生成的样例，拖动不会重新生图。",
+    proofSource: "原照：Curtis Adams · 效果图：拍拍搭生成样例",
+    compareBefore: "原始照片", compareAfter: "生成效果图", compareControl: "拖动对照原始房间照片和生成效果图",
     filmTitle: "从上传到 2.5D，\n看完整流程。",
     filmBody: "真实工作台录屏：从邀请码登录、上传照片与填写要求，到效果图上选家具、拖动选品窗、核对结构、查看 2.5D，再看版本记录与多空间项目。",
     filmNote: "上传画面使用公开房间样例；之后接续另一份已验收的 01 方案。本片未现场生图，也未提交付费编辑。确认页来自历史方案，原图细节已遮蔽；2.5D 来自已验收的 01 方案。",
@@ -92,9 +93,10 @@ const copy = {
     journeyPreview: ["Creation input illustration", "Approved result · not live generation", "Interactive decor example", "Review illustration · compare the original in the studio", "Matching 2.5D concept"],
     journeyRoom: "Original room photo", journeyStyle: "Style reference", journeyFurniture: "Furniture reference", journeyOptional: "Optional",
     journeyPrompt: "Keep the windows and viewpoint; use calm, warm furnishings.", journeyApproved: "Approve the front view first", journeyCheck: ["Windows and doors", "Walls and floor", "Viewpoint"],
-    proofTitle: "Same room.\nA different sofa.",
-    proofBody: "Drag to compare generated views of the same living room before and after replacing the sofa. This compares a decor edit, not the original room with a renovation result.",
-    compareBefore: "Before replacement", compareAfter: "After replacement", compareControl: "Drag to compare before and after replacing the sofa",
+    proofTitle: "From the original room\nto a furnished concept.",
+    proofBody: "Drag to compare the original photo of the same bedroom with its AI-generated result. This is a pre-generated example; moving the slider does not generate a new image.",
+    proofSource: "Original photo: Curtis Adams · Result: Paipaida sample",
+    compareBefore: "Original photo", compareAfter: "Generated result", compareControl: "Drag to compare the original room photo with the generated result",
     filmTitle: "From upload to 2.5D.\nSee the full workflow.",
     filmBody: "An actual studio recording: invite login, photo upload, design prompt, furniture selection and movable product picker, structure review, 2.5D, version history, and a multi-room project.",
     filmNote: "The upload uses a public sample room. The later edit footage continues with a different approved design 01. No live image generation or paid edit was submitted. The review screen is from a historical design with original-photo details blurred; the 2.5D belongs to approved design 01.",
@@ -116,7 +118,7 @@ export default function WebsitePage() {
   const [selected, setSelected] = useState(false);
   const [action, setAction] = useState<DemoAction | null>(null);
   const [journeyStep, setJourneyStep] = useState<JourneyStep>(0);
-  const [comparePosition, setComparePosition] = useState(27);
+  const [comparePosition, setComparePosition] = useState(35);
   const t = copy[language];
 
   const resetDemo = () => {
@@ -197,13 +199,14 @@ export default function WebsitePage() {
     <section className={styles.proof} id="compare">
       <div className={styles.sectionCopy}><h2><BreakLines text={t.proofTitle} /></h2><p>{t.proofBody}</p></div>
       <div className={styles.compare}>
-        <div className={styles.compareLayer}><Image src="/site/website-demo/replace.jpg" alt={t.compareAfter} fill sizes="(max-width: 1660px) 100vw, 1516px" /></div>
-        <div className={styles.compareBeforeLayer} style={{ clipPath: `inset(0 ${100 - comparePosition}% 0 0)` }}><Image src="/site/website-demo/base.jpg" alt={t.compareBefore} fill sizes="(max-width: 1660px) 100vw, 1516px" /></div>
+        <div className={styles.compareLayer}><Image src="/site/before-after/generated-bedroom.jpg" alt={t.compareAfter} fill sizes="(max-width: 1660px) 100vw, 1516px" /></div>
+        <div className={styles.compareBeforeLayer} style={{ clipPath: `inset(0 ${100 - comparePosition}% 0 0)` }}><Image src="/site/before-after/original-bedroom.jpg" alt={t.compareBefore} fill sizes="(max-width: 1660px) 100vw, 1516px" /></div>
         <span className={[styles.compareLabel, styles.compareLabelBefore].join(" ")}>{t.compareBefore}</span>
         <span className={[styles.compareLabel, styles.compareLabelAfter].join(" ")}>{t.compareAfter}</span>
         <div className={styles.compareDivider} style={{ left: `${comparePosition}%` }} aria-hidden="true"><span>‹ &nbsp; ›</span></div>
         <input className={styles.compareRange} type="range" min="0" max="100" value={comparePosition} onChange={(event) => setComparePosition(Number(event.target.value))} aria-label={t.compareControl} />
       </div>
+      <p className={styles.compareSource}>{t.proofSource} · <a href="https://www.pexels.com/photo/empty-bedroom-10099332/" target="_blank" rel="noreferrer">Pexels ↗</a></p>
     </section>
 
     <section className={styles.film} id="film">
